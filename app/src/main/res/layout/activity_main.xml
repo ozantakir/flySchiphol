@@ -4,22 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
+
+   <com.google.android.material.appbar.AppBarLayout
+       android:id="@+id/appbar"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+      <androidx.appcompat.widget.Toolbar
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/toolbar"
+          android:background="@color/teal_700"
+          android:minHeight="?attr/actionBarSize">
+         <CheckBox
+             android:id="@+id/check_arrival"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/arrival"
+             android:buttonTint="@color/white"
+             android:textColor="@color/white"
+             />
+         <View
+             android:layout_width="25dp"
+             android:layout_height="1dp" />
+         <CheckBox
+             android:id="@+id/check_departure"
+             android:buttonTint="@color/white"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/departure"
+             android:textColor="@color/white"
+             />
+         <Button
+             android:backgroundTint="@color/white"
+             android:id="@+id/selectDate"
+             android:layout_width="wrap_content"
+             android:layout_marginEnd="30dp"
+             android:layout_height="wrap_content"
+             android:layout_gravity="end"
+             android:textAllCaps="false"
+             android:text="@string/select_date"
+             android:textColor="@color/teal_700"
+             />
+
+
+      </androidx.appcompat.widget.Toolbar>
+   </com.google.android.material.appbar.AppBarLayout>
 
    <androidx.recyclerview.widget.RecyclerView
+       android:layout_marginTop="?attr/actionBarSize"
        android:id="@+id/recycler_view"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/appbar"
        />
 
    <ImageButton
        android:background="@android:color/transparent"
        android:id="@+id/fab"
        android:layout_width="50dp"
+       android:contentDescription="@string/next_page"
        android:layout_height="50dp"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintBottom_toBottomOf="parent"
@@ -29,6 +79,7 @@
    <ImageButton
        android:background="@android:color/transparent"
        android:id="@+id/fab2"
+       android:contentDescription="@string/previous_page"
        android:layout_width="50dp"
        android:layout_height="50dp"
        app:layout_constraintEnd_toStartOf="@+id/fab"

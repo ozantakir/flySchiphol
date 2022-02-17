@@ -16,5 +16,8 @@ interface QApi {
     @GET("flights")
     suspend fun getData(
         @Query("page") page:Int,
+        @Query("flightDirection") flightDirection:String? = null,
+        @Query("scheduleDate") scheduleDate:String? = null,
     ) : Response<FlyModel>
 }
+
