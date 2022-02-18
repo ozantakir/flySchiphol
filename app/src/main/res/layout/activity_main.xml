@@ -27,9 +27,7 @@
              android:buttonTint="@color/white"
              android:textColor="@color/white"
              />
-         <View
-             android:layout_width="25dp"
-             android:layout_height="1dp" />
+
          <CheckBox
              android:id="@+id/check_departure"
              android:buttonTint="@color/white"
@@ -39,15 +37,22 @@
              android:textColor="@color/white"
              />
          <Button
+             android:layout_marginStart="25dp"
              android:backgroundTint="@color/white"
              android:id="@+id/selectDate"
              android:layout_width="wrap_content"
-             android:layout_marginEnd="30dp"
              android:layout_height="wrap_content"
-             android:layout_gravity="end"
              android:textAllCaps="false"
              android:text="@string/select_date"
              android:textColor="@color/teal_700"
+             />
+         <TextView
+             android:id="@+id/clear"
+             android:layout_marginStart="10dp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Clear"
+             android:textColor="@color/white"
              />
 
 
@@ -66,7 +71,7 @@
        />
 
    <ImageButton
-       android:background="@android:color/transparent"
+       android:background="@color/teal_700"
        android:id="@+id/fab"
        android:layout_width="50dp"
        android:contentDescription="@string/next_page"
@@ -77,15 +82,28 @@
        android:layout_margin="16dp" />
 
    <ImageButton
-       android:background="@android:color/transparent"
+       android:background="@color/teal_700"
        android:id="@+id/fab2"
        android:contentDescription="@string/previous_page"
        android:layout_width="50dp"
        android:layout_height="50dp"
        app:layout_constraintEnd_toStartOf="@+id/fab"
        app:layout_constraintBottom_toBottomOf="parent"
-       android:src="@drawable/previous"
+       android:src="@drawable/prev"
        android:layout_margin="16dp" />
+
+
+      <Button
+          android:id="@+id/profileButton"
+          android:layout_width="wrap_content"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:layout_height="wrap_content"
+          android:text="My Flights"
+          android:textAllCaps="false"
+          android:textAlignment="center"
+          android:textColor="@color/white"
+          android:layout_margin="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

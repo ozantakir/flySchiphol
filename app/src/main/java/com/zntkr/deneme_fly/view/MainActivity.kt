@@ -6,9 +6,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zntkr.deneme_fly.adapter.RecyclerViewAdapter
-import com.zntkr.deneme_fly.databinding.ActivityMainBinding
 import com.zntkr.deneme_fly.model.FlyModel
 import com.zntkr.deneme_fly.service.QApi
+import com.zntkr.deneme_fly.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.*
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private var selectedDay = 0
 
 
+
     val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         println("Error: ${throwable.localizedMessage}")
     }
@@ -41,50 +42,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = layoutManager
 
         loadData()
-
-        binding.selectDate.setOnClickListener {
-            val currentDate = Calendar.getInstance()
-            val year = currentDate.get(Calendar.YEAR)
-            val month = currentDate.get(Calendar.MONTH)
-            val day = currentDate.get(Calendar.DAY_OF_MONTH)
-
-            if(binding.selectDate.text.isNotEmpty()){
-                this.selectedYear = year
-                this.selectedMonth = month
-                this.selectedDay = day
-            }
-                val listener = DatePickerDialog.OnDateSetListener{datePicker, selectedYear, selectedMonth, selectedDay ->
-                    this.selectedYear = selectedYear
-                    this.selectedMonth = selectedMonth
-                    this.selectedDay = selectedDay
-                    if(selectedMonth < 10 && selectedDay < 10){
-                        dateText = "$selectedYear-0${selectedMonth + 1}-0$selectedDay"
-                    } else if(selectedMonth < 10){
-                        dateText = "$selectedYear-0${selectedMonth + 1}-$selectedDay"
-                    } else if(selectedDay < 10){
-                        dateText = "$selectedYear-${selectedMonth + 1}-0$selectedDay"
-                    } else {
-                        dateText = "$selectedYear-${selectedMonth + 1}-$selectedDay"
-                    }
-
-                    binding.selectDate.text = dateText
-                }
-
-                val datePicker = DatePickerDialog(this,listener,year,month,day)
-                datePicker.show()
-
-        }
-        binding.selectDate.addTextChangedListener {
-            if(binding.selectDate.text != "Select Date"){
-                date = binding.selectDate.text.toString()
-                loadData()
-            } else {
-                date = null
-                loadData()
-            }
-        }
-
-
 
         binding.fab.setOnClickListener {
             pageNumber += 1
@@ -123,6 +80,54 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.selectDate.setOnClickListener {
+            val currentDate = Calendar.getInstance()
+            val year = currentDate.get(Calendar.YEAR)
+            val month = currentDate.get(Calendar.MONTH)
+            val day = currentDate.get(Calendar.DAY_OF_MONTH)
+
+            if(binding.selectDate.text.isNotEmpty()){
+                this.selectedYear = year
+                this.selectedMonth = month
+                this.selectedDay = day
+            }
+            val listener = DatePickerDialog.OnDateSetListener{datePicker, selectedYear, selectedMonth, selectedDay ->
+                this.selectedYear = selectedYear
+                this.selectedMonth = selectedMonth
+                this.selectedDay = selectedDay
+                if(selectedMonth < 10 && selectedDay < 10){
+                    dateText = "$selectedYear-0${selectedMonth + 1}-0$selectedDay"
+                } else if(selectedMonth < 10){
+                    dateText = "$selectedYear-0${selectedMonth + 1}-$selectedDay"
+                } else if(selectedDay < 10){
+                    dateText = "$selectedYear-${selectedMonth + 1}-0$selectedDay"
+                } else {
+                    dateText = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                }
+
+                binding.selectDate.text = dateText
+            }
+
+            val datePicker = DatePickerDialog(this,listener,year,month,day)
+            datePicker.show()
+
+        }
+
+        binding.selectDate.addTextChangedListener {
+
+            if(binding.selectDate.text.toString() != "Select Date"){
+                date = binding.selectDate.text.toString()
+                loadData()
+            }
+        }
+
+        binding.clear.setOnClickListener {
+            binding.checkArrival.isChecked = false
+            binding.selectDate.text = "Select Date"
+            date = null
+            binding.checkDeparture.isChecked = false
+            loadData()
+        }
 
 
     }
@@ -132,6 +137,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadData() {
         val retrofit = RetrofitHelper.getInstance().create(QApi::class.java)
 
+
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             if(destination == "A"){
                 response = retrofit.getData(pageNumber,destination,date)
@@ -140,7 +146,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 response = retrofit.getData(page = pageNumber, scheduleDate = date)
             }
-
             withContext(Dispatchers.Main){
                 if(response.isSuccessful){
                     response.body()?.let {
@@ -154,4 +159,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

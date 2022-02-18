@@ -5,4 +5,80 @@
     <string name="arrival">Arrival</string>
     <string name="departure">Departure</string>
     <string name="select_date">Select Date</string>
+    <string name="flight_name">Flight Name:</string>
+    <string name="flight_number">Flight Number:</string>
+    <string name="gate">Gate:</string>
+    <string name="scheduled_date">Scheduled Date:</string>
+    <string name="scheduled_time">Scheduled Time:</string>
+    <string name="destination">Destination:</string>
+    <string name="seat">Seat:</string>
+    <string name="not_decided">Not decided</string>
+    <string name="reservation">Reservation</string>
+    <string name="full_name">Full Name</string>
+    <string name="e_mail">E-mail</string>
+    <string name="phone">Phone</string>
+    <string name="confirm">CONFIRM</string>
+
+    <string-array name="seats">
+        <item>A01</item>
+        <item>A02</item>
+        <item>A03</item>
+        <item>A04</item>
+        <item>A07</item>
+        <item>A08</item>
+        <item>A09</item>
+        <item>A10</item>
+        <item>A11</item>
+        <item>A12</item>
+        <item>A13</item>
+        <item>A14</item>
+        <item>A15</item>
+        <item>A16</item>
+        <item>A17</item>
+
+        <item>B07</item>
+        <item>B08</item>
+        <item>B09</item>
+        <item>B10</item>
+        <item>B11</item>
+        <item>B12</item>
+        <item>B13</item>
+        <item>B14</item>
+        <item>B15</item>
+        <item>B16</item>
+        <item>B17</item>
+
+        <item>C01</item>
+        <item>C02</item>
+        <item>C03</item>
+        <item>C07</item>
+        <item>C08</item>
+        <item>C09</item>
+        <item>C19</item>
+        <item>C11</item>
+        <item>C12</item>
+        <item>C13</item>
+        <item>C14</item>
+        <item>C15</item>
+        <item>C16</item>
+        <item>C17</item>
+
+
+        <item>D01</item>
+        <item>D02</item>
+        <item>D03</item>
+        <item>D07</item>
+        <item>D08</item>
+        <item>D09</item>
+        <item>D19</item>
+        <item>D11</item>
+        <item>D12</item>
+        <item>D13</item>
+        <item>D14</item>
+        <item>D15</item>
+        <item>D16</item>
+        <item>D17</item>
+    </string-array>
+
+
 </resources>
