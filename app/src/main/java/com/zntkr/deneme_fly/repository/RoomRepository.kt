@@ -1,18 +1,19 @@
-package com.zntkr.deneme_fly
+package com.zntkr.deneme_fly.repository
 
 import androidx.lifecycle.LiveData
-import com.zntkr.deneme_fly.model.FlyModel
 import com.zntkr.deneme_fly.model.RoomModel
 import com.zntkr.deneme_fly.roomdb.InfoDao
-import com.zntkr.deneme_fly.service.QApi
-import retrofit2.Response
 import java.util.*
 
-class Repository(private val dao : InfoDao) {
+// repository for room database
+class RoomRepository(private val dao : InfoDao) {
 
     // Reservation View Model
     suspend fun addData(roomModel: RoomModel){
         dao.insert(roomModel)
+    }
+    suspend fun deleteData(flightName: String){
+        dao.delete(flightName)
     }
 
     // My Flights View Model
@@ -20,8 +21,9 @@ class Repository(private val dao : InfoDao) {
     val getFuture: LiveData<List<RoomModel>> = dao.loadFutureFlights(getNow())
     val getPast: LiveData<List<RoomModel>> = dao.loadPastFlights(getNow())
 
-    suspend fun deleteData(roomModel: RoomModel){
-        dao.delete(roomModel)
+
+    suspend fun deleteAll(){
+        dao.deleteAll()
     }
 
 }

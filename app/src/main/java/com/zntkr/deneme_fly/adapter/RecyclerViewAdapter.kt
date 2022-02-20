@@ -23,9 +23,7 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
     private var country : String? = null
     private var dest : String? = null
 
-    class RowHolder(val binding: RecyclerRowBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    class RowHolder(val binding: RecyclerRowBinding) : RecyclerView.ViewHolder(binding.root) {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
         val binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context))
@@ -34,9 +32,10 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
 
     override fun onBindViewHolder(holder: RowHolder, position: Int) {
 
+        // getting destination country and city name from api and assigning
         val quotesApi = RetrofitHelper.getInstance().create(DestinationApi::class.java)
         CoroutineScope(Dispatchers.IO).launch {
-            val destination = flyList.get(position).route?.destinations?.get(0)
+            val destination = flyList[position].route?.destinations?.get(0)
             val result = quotesApi.getDestinations(destination!!)
             withContext(Dispatchers.Main){
                 city = result.body()?.city.toString()
@@ -45,21 +44,23 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
                 holder.binding.flightDestination.text = dest
             }
         }
-
-        holder.binding.flightName.text = flyList.get(position).flightName
-
-        holder.binding.flightDate.text = flyList.get(position).scheduleDate
-        holder.binding.flightTime.text = flyList.get(position).scheduleTime
-        if(flyList.get(position).flightDirection == "A"){
+        // assigning values to ui
+        holder.binding.flightName.text = flyList[position].flightName
+        holder.binding.flightDate.text = flyList[position].scheduleDate
+        holder.binding.flightTime.text = flyList[position].scheduleTime
+        if(flyList[position].flightDirection == "A"){
             holder.binding.flyIcon.setImageResource(R.drawable.arrival)
-        } else if (flyList.get(position).flightDirection == "D"){
+        } else if (flyList[position].flightDirection == "D"){
             holder.binding.flyIcon.setImageResource(R.drawable.departure)
         }
+
+        // getting time for now
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
-        val flyDate = flyList.get(position).scheduleDate
+        // time for selected flight
+        val flyDate = flyList[position].scheduleDate
         val flyYear = flyDate?.substring(0,4)?.toInt()
         val flyMonth = flyDate?.substring(5,7)?.toInt()
         val flyDay = flyDate?.substring(8,10)?.toInt()
@@ -68,7 +69,9 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
             holder.itemView.setOnClickListener {
                 val activity = holder.itemView.context as Activity
                 val intent = Intent(activity,DetailsActivity::class.java)
-                if(flyList.get(position).flightDirection == "D" && year <= flyYear!!){
+
+                // comparing flight direction and time to decide if reservation is possible
+                if(flyList[position].flightDirection == "D" && year <= flyYear!!){
                     if(month <= flyMonth!!){
                         if(day < flyDay!!){
                             intent.putExtra("reservation","true")
@@ -78,19 +81,18 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
                     intent.putExtra("reservation","false")
                 }
 
-                intent.putExtra("flyName", flyList.get(position).flightName)
-                intent.putExtra("flyNumber",flyList.get(position).flightNumber.toString())
-                intent.putExtra("flyDirection",flyList.get(position).flightDirection)
-                intent.putExtra("flyGate",flyList.get(position).gate.toString())
-                intent.putExtra("flyDate",flyList.get(position).scheduleDate)
-                intent.putExtra("flyTime",flyList.get(position).scheduleTime)
+                // sending data with intent and starting activity
+                intent.putExtra("flyName", flyList[position].flightName)
+                intent.putExtra("flyNumber", flyList[position].flightNumber.toString())
+                intent.putExtra("flyDirection", flyList[position].flightDirection)
+                intent.putExtra("flyGate", flyList[position].gate.toString())
+                intent.putExtra("flyDate", flyList[position].scheduleDate)
+                intent.putExtra("flyTime", flyList[position].scheduleTime)
                 intent.putExtra("flyDestination",
                     holder.binding.flightDestination.text
                 )
                 holder.itemView.context.startActivity(intent)
             }
-
-
     }
 
     override fun getItemCount(): Int {

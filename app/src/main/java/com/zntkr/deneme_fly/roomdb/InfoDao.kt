@@ -14,10 +14,13 @@ interface InfoDao {
     fun getAll() : LiveData<List<RoomModel>>
 
     @Insert
-    fun insert(info : RoomModel)
+    suspend fun insert(info : RoomModel)
 
-    @Delete
-    fun delete(info : RoomModel)
+    @Query("DELETE FROM Information WHERE flightName = :flightName")
+    suspend fun delete(flightName: String)
+
+    @Query("DELETE FROM Information")
+    suspend fun deleteAll()
 
     @Query("SELECT * FROM Information WHERE dateTime > :now")
     fun loadFutureFlights(now: Long): LiveData<List<RoomModel>>

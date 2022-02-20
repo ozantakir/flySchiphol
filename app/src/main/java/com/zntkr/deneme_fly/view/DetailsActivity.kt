@@ -28,7 +28,7 @@ class DetailsActivity : AppCompatActivity() {
         val destination = intent.getStringExtra("flyDestination")
 
 
-        // Checking if reservation is possible or not
+        // Checking if reservation is possible or not and changing ui accordingly
         val reservation = intent.getStringExtra("reservation")
         if(reservation == "true"){
             binding.reservation.visibility = View.VISIBLE
@@ -42,7 +42,7 @@ class DetailsActivity : AppCompatActivity() {
             binding.seatsSpinner.visibility = View.GONE
         }
 
-        // Checking the direction of flight
+        // Checking the direction of flight and changing ui accordingly
         val direction = intent.getStringExtra("flyDirection")
         if(direction == "A"){
             binding.gate.visibility = View.GONE

@@ -8,6 +8,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+// main data
 interface QApi {
     @Headers(
         "Accept: application/json",
@@ -23,6 +24,7 @@ interface QApi {
     ) : Response<FlyModel>
 }
 
+// to get destination as country and city
 interface DestinationApi {
     @Headers(
         "Accept: application/json",
@@ -35,4 +37,5 @@ interface DestinationApi {
         @Path("iata") code:String
     ) : Response<Destination>
 }
+
 

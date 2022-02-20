@@ -82,16 +82,7 @@
         android:id="@+id/flightTime"
         />
 
-    <ImageView
-        android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/flightDate"
-        app:layout_constraintTop_toBottomOf="@+id/flightDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/flightTime"
-        android:src="@drawable/delete_icon"
-        />
+
     <View
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"

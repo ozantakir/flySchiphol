@@ -31,10 +31,6 @@ class ReservationActivity : AppCompatActivity() {
 
         // initialize view model
         viewModel = ViewModelProvider(this).get(ReservationViewModel::class.java)
-//
-//        // database
-//        db = Room.databaseBuilder(applicationContext,InfoDatabase::class.java,"Information").build()
-//        infoDao = db.infoDao()
 
         // Intent to get data from details activity
         val intent = getIntent()
@@ -47,27 +43,23 @@ class ReservationActivity : AppCompatActivity() {
         val flightDirection = intent.getStringExtra("flightDirection")
         val flightDestination = intent.getStringExtra("flightDestination")
 
-            binding.confirmButton.setOnClickListener {
-                val date = flightDate?.replace("-","")
-                val time = flightTime?.replace(":","")
-                val dateTime = (date + time).toLong()
+        // confirming reservation
+        binding.confirmButton.setOnClickListener {
+            val date = flightDate?.replace("-","")
+            val time = flightTime?.replace(":","")
+            val dateTime = (date + time).toLong()
 
-                // getting input data
-                val name =  binding.editName.text.toString()
-                val phone = binding.editPhone.text.toString()
-                val email = binding.editMail.text.toString()
-                if(name.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty()){
-                    val roomModel = RoomModel(name = name, email = email, phone = phone,flightName = flightName!!,
-                        date = flightDate!!, time = flightTime!!, seat = flightSeat!!, destination = flightDestination!!,
-                        direction = flightDirection!!, dateTime = dateTime)
-                    viewModel.addData(roomModel)
+            // getting input data
+            val name =  binding.editName.text.toString()
+            val phone = binding.editPhone.text.toString()
+            val email = binding.editMail.text.toString()
+            if(name.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty()){
+                val roomModel = RoomModel(name = name, email = email, phone = phone,flightName = flightName!!,
+                    date = flightDate!!, time = flightTime!!, seat = flightSeat!!, destination = flightDestination!!,
+                    direction = flightDirection!!, dateTime = dateTime)
+                viewModel.addData(roomModel)
 
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    val info = RoomModel(name = name, email = email, phone = phone,flightName = flightName!!,
-//                        date = flightDate!!, time = flightTime!!, seat = flightSeat!!, destination = flightDestination!!,
-//                        direction = flightDirection!!, dateTime = dateTime)
-//                    infoDao.insert(info)
-//                }
+                // starting my flights activity
                 val newIntent = Intent(this, MyFlightsActivity::class.java)
                 startActivity(newIntent)
             } else {

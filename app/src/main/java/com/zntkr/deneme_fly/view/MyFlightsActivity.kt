@@ -1,12 +1,16 @@
 package com.zntkr.deneme_fly.view
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +28,7 @@ import com.zntkr.deneme_fly.viewmodel.MyFlightsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
 
@@ -38,9 +43,13 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
+        // initializing view model
         viewModel = ViewModelProvider(this)[MyFlightsViewModel::class.java]
+
+        // loading all of the from room
         getAll()
 
+        // getting past flights
         binding.pastFlights.setOnCheckedChangeListener { button, isChecked ->
             if (isChecked) {
                 getPast()
@@ -48,6 +57,8 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
                 getAll()
             }
         }
+
+        // getting future flights
         binding.futureFlights.setOnCheckedChangeListener { button, isChecked ->
             if (isChecked) {
                 getFuture()
@@ -56,16 +67,23 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
             }
         }
 
+        // moving to main screen
         binding.homeButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-
+        // moving to scan activity
         binding.scan.setOnClickListener {
-            val intent = Intent(this, ScanActivity::class.java)
-            startActivity(intent)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                val intent = Intent(this, ScanActivity::class.java)
+                startActivity(intent)
+            }
         }
 
+        binding.delete.setOnClickListener {
+                viewModel.deleteAll()
+        }
     }
 
     private fun getAll() {
@@ -88,9 +106,36 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
             binding.recyclerView.adapter = recyclerAdapter
         })
     }
-
+    // preventing back button functionality
     @Override
     override fun onBackPressed() {
         return;
+    }
+
+    fun getNow() : Long {
+        val year = Calendar.getInstance().get(Calendar.YEAR)
+        var month = Calendar.getInstance().get(Calendar.MONTH)
+        if (month < 10){
+            month = "0$month".toInt()
+        }
+        var day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        if (day < 10){
+            day = "0$day".toInt()
+        }
+        var hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        if (hour < 10){
+            hour = "0$hour".toInt()
+        }
+        var minute = Calendar.getInstance().get(Calendar.MINUTE)
+        if (minute < 10){
+            minute = "0$minute".toInt()
+        }
+        var second = Calendar.getInstance().get(Calendar.SECOND)
+        if (second < 10){
+            second = "0$second".toInt()
+        }
+
+        val dateTime = "$year$month$day$hour$minute$second"
+        return dateTime.toLong()
     }
 }
