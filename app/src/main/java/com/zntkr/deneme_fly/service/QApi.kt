@@ -1,8 +1,6 @@
 package com.zntkr.deneme_fly.service
 
-import androidx.lifecycle.LiveData
 import com.zntkr.deneme_fly.model.Destination
-import com.zntkr.deneme_fly.model.Destinations
 import com.zntkr.deneme_fly.model.FlyModel
 import retrofit2.Response
 import retrofit2.http.GET

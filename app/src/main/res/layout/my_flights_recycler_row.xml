@@ -23,6 +23,8 @@
         app:layout_constraintStart_toStartOf="@+id/flightName"
         app:layout_constraintEnd_toEndOf="@+id/flightName"
         android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -33,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/name"
         app:layout_constraintBottom_toTopOf="@+id/flightDestination"
         app:layout_constraintEnd_toStartOf="@+id/flightDate"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:id="@+id/flightName"
         />
 

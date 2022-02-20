@@ -2,6 +2,7 @@ package com.zntkr.deneme_fly.view
 
 import android.content.Intent
 import android.media.Image
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -41,14 +42,14 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
         getAll()
 
         binding.pastFlights.setOnCheckedChangeListener { button, isChecked ->
-            if (isChecked){
-               getPast()
+            if (isChecked) {
+                getPast()
             } else {
                 getAll()
             }
         }
         binding.futureFlights.setOnCheckedChangeListener { button, isChecked ->
-            if (isChecked){
+            if (isChecked) {
                 getFuture()
             } else {
                 getAll()
@@ -56,7 +57,12 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
         }
 
         binding.homeButton.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.scan.setOnClickListener {
+            val intent = Intent(this, ScanActivity::class.java)
             startActivity(intent)
         }
 
@@ -87,9 +93,4 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
     override fun onBackPressed() {
         return;
     }
-
-
-
-
-
 }

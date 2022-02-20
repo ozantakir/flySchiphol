@@ -65,6 +65,18 @@
         android:textColor="@color/white"
         android:layout_margin="16dp" />
 
+    <Button
+        android:id="@+id/scan"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:text="@string/scan"
+        android:textAllCaps="false"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:layout_margin="16dp" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
