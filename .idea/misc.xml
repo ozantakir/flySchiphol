@@ -5,8 +5,11 @@
       <map>
         <entry key="..\:/Users/Ozant/development/kotlinProjects/deneme_fly/app/src/main/res/layout/activity_details.xml" value="0.18" />
         <entry key="..\:/Users/Ozant/development/kotlinProjects/deneme_fly/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Ozant/development/kotlinProjects/deneme_fly/app/src/main/res/layout/activity_my_flights.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Ozant/development/kotlinProjects/deneme_fly/app/src/main/res/layout/activity_reservation.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Ozant/development/kotlinProjects/deneme_fly/app/src/main/res/layout/my_flights_recycler_row.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Ozant/development/kotlinProjects/deneme_fly/app/src/main/res/layout/recycler_row.xml" value="0.1" />
+        <entry key="..\:/Users/Ozant/development/kotlinProjects/deneme_fly/app/src/main/res/menu/menu.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

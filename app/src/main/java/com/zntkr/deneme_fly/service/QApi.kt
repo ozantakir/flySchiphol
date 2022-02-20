@@ -1,5 +1,6 @@
 package com.zntkr.deneme_fly.service
 
+import androidx.lifecycle.LiveData
 import com.zntkr.deneme_fly.model.Destination
 import com.zntkr.deneme_fly.model.Destinations
 import com.zntkr.deneme_fly.model.FlyModel

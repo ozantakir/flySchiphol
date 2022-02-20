@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Deneme_fly">
         <activity
+            android:name=".view.MyFlightsDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.MyFlightsActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.ReservationActivity"
             android:exported="false" />
         <activity

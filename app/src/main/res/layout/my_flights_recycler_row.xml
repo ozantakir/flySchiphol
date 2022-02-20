@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <ImageView
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
@@ -14,16 +14,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/name"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/flightName"
+        app:layout_constraintStart_toStartOf="@+id/flightName"
+        app:layout_constraintEnd_toEndOf="@+id/flightName"
+        android:textStyle="bold"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/fly_icon"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name"
         app:layout_constraintBottom_toTopOf="@+id/flightDestination"
         app:layout_constraintEnd_toStartOf="@+id/flightDate"
-        android:textStyle="bold"
         android:textSize="20sp"
         android:id="@+id/flightName"
         />
@@ -71,13 +80,21 @@
         android:id="@+id/flightTime"
         />
 
+    <ImageView
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/flightDate"
+        app:layout_constraintTop_toBottomOf="@+id/flightDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/flightTime"
+        android:src="@drawable/delete_icon"
+        />
     <View
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         app:layout_constraintTop_toBottomOf="@id/flightDestination"
-        android:background="#880808" />
-
-
+        android:background="@color/teal_200" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

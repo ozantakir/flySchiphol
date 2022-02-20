@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".view.MainActivity">
 
    <com.google.android.material.appbar.AppBarLayout
@@ -63,11 +63,10 @@
        android:layout_marginTop="?attr/actionBarSize"
        android:id="@+id/recycler_view"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       app:layout_constraintBottom_toBottomOf="parent"
+       android:layout_height="match_parent"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/appbar"
+       app:layout_constraintTop_toTopOf="parent"
        />
 
    <ImageButton
@@ -94,7 +93,7 @@
 
 
       <Button
-          android:id="@+id/profileButton"
+          android:id="@+id/flightsButton"
           android:layout_width="wrap_content"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintBottom_toBottomOf="parent"

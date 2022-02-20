@@ -2,6 +2,7 @@ package com.zntkr.deneme_fly.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Flight(
     @SerializedName("actualLandingTime")
@@ -74,4 +75,4 @@ data class Flight(
     val terminal: Int?,
     @SerializedName("transferPositions")
     val transferPositions: Any?
-)
+) : Serializable
