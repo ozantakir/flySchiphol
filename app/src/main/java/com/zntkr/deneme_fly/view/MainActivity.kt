@@ -3,28 +3,24 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.AbsListView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.adapter.RecyclerViewAdapter
-import com.zntkr.deneme_fly.model.FlyModel
-import com.zntkr.deneme_fly.service.QApi
 import com.zntkr.deneme_fly.databinding.ActivityMainBinding
 import com.zntkr.deneme_fly.model.Destination
-import com.zntkr.deneme_fly.model.DestinationsList
 import com.zntkr.deneme_fly.model.Flight
-import com.zntkr.deneme_fly.service.DestinationApi
 import com.zntkr.deneme_fly.viewmodel.MainViewModel
-import com.zntkr.deneme_fly.viewmodel.ReservationViewModel
-import kotlinx.coroutines.*
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),RecyclerViewAdapter.MyOnClickListener {
 
     private lateinit var viewModel : MainViewModel
     private var flyModels: List<Flight>? = null
@@ -32,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var dateText : String
     private var date : String? = null
-
     private var selectedYear = 0
     private var selectedMonth = 0
     private var selectedDay = 0
@@ -50,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         // loading all of the data
         loadData()
+
         // Next - Previous page
         binding.fab.setOnClickListener {
             viewModel.addNumber()
@@ -58,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         binding.fab2.setOnClickListener {
             viewModel.subNumber()
                 loadData()
-
         }
         // Filtering according to Arrival
         binding.checkArrival.setOnCheckedChangeListener { button, isChecked ->
@@ -112,8 +107,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MyFlightsActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 
     // Function to load data from API
@@ -129,12 +122,13 @@ class MainActivity : AppCompatActivity() {
             if(response != null){
                 flyModels = response.flights
                 flyModels?.let {
-                    recyclerViewAdapter = RecyclerViewAdapter(it)
+                    recyclerViewAdapter = RecyclerViewAdapter(it,this)
                     binding.recyclerView.adapter = recyclerViewAdapter
                 }
             }
         }
     }
+    // getting date from calendar
     private fun getDate(){
         val currentDate = Calendar.getInstance()
         val year = currentDate.get(Calendar.YEAR)
@@ -165,10 +159,48 @@ class MainActivity : AppCompatActivity() {
         datePicker.show()
     }
 
-
+    // preventing back button functionality
     @Override
     override fun onBackPressed() {
         return;
+    }
+
+    // on click for recycler view row
+    override fun onClick(position: Int) {
+        val intent = Intent(this,DetailsActivity::class.java)
+        // getting time for now
+        val y = Calendar.getInstance().get(Calendar.YEAR)
+        val m = Calendar.getInstance().get(Calendar.MONTH) + 1
+        val d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+        // time for selected flight
+        val flyDate = flyModels?.get(position)?.scheduleDate
+        val flyYear = flyDate?.substring(0,4)?.toInt()
+        val flyMonth = flyDate?.substring(5,7)?.toInt()
+        val flyDay = flyDate?.substring(8,10)?.toInt()
+
+                // comparing flight direction and time to decide if reservation is possible
+                if(flyModels?.get(position)?.flightDirection == "D" && y <= flyYear!!){
+                    if(m < flyMonth!!){
+                            intent.putExtra("reservation","true")
+                    } else if(m == flyMonth && d < flyDay!!){
+                        intent.putExtra("reservation","true")
+                    }
+                } else {
+                    intent.putExtra("reservation","false")
+                }
+
+                // sending data with intent and starting activity
+                intent.putExtra("flyName", flyModels?.get(position)?.flightName)
+                intent.putExtra("flyNumber", flyModels?.get(position)?.flightNumber.toString())
+                intent.putExtra("flyDirection", flyModels?.get(position)?.flightDirection)
+                intent.putExtra("flyGate", flyModels?.get(position)?.gate.toString())
+                intent.putExtra("flyDate", flyModels?.get(position)?.scheduleDate)
+                intent.putExtra("flyTime", flyModels?.get(position)?.scheduleTime)
+                intent.putExtra("flyDestination",flyModels?.get(position)?.route?.destinations?.get(0))
+
+                startActivity(intent)
     }
 }
 

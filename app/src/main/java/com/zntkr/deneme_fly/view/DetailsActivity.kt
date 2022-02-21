@@ -3,18 +3,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.databinding.ActivityDetailsBinding
+import com.zntkr.deneme_fly.viewmodel.MainViewModel
 
 class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityDetailsBinding
+    private lateinit var viewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         // Intent to get data from main activity
         val intent = getIntent()
 
@@ -25,7 +28,6 @@ class DetailsActivity : AppCompatActivity() {
         val number = intent.getStringExtra("flyNumber")
         val gate = intent.getStringExtra("flyGate")
         val destination = intent.getStringExtra("flyDestination")
-
 
         // Checking if reservation is possible or not and changing ui accordingly
         val reservation = intent.getStringExtra("reservation")
@@ -63,7 +65,6 @@ class DetailsActivity : AppCompatActivity() {
             binding.gate.text = gate
         }
         binding.number.text = number
-
         binding.destination.text = destination
 
         // Intent to reservation activity
@@ -78,6 +79,4 @@ class DetailsActivity : AppCompatActivity() {
             startActivity(newIntent)
         }
     }
-
-
 }

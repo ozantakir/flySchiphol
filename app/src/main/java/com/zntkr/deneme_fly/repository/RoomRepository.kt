@@ -21,11 +21,9 @@ class RoomRepository(private val dao : InfoDao) {
     val getFuture: LiveData<List<RoomModel>> = dao.loadFutureFlights(getNow())
     val getPast: LiveData<List<RoomModel>> = dao.loadPastFlights(getNow())
 
-
     suspend fun deleteAll(){
         dao.deleteAll()
     }
-
 }
 
 // getting date time for now

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
-import com.zntkr.deneme_fly.model.RoomModel
 import com.zntkr.deneme_fly.repository.RoomRepository
 import com.zntkr.deneme_fly.roomdb.InfoDatabase
 import kotlinx.coroutines.Dispatchers

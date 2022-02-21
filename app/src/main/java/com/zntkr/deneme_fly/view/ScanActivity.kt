@@ -1,16 +1,13 @@
 package com.zntkr.deneme_fly.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
-import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.databinding.ActivityScanBinding
 
 class ScanActivity : AppCompatActivity() {

@@ -30,10 +30,7 @@ class MyFlightsViewModel(app: Application) : AndroidViewModel(app) {
         getFuture = repo.getFuture
     }
 
-
     fun deleteAll(){
         viewModelScope.launch(Dispatchers.IO) { repo.deleteAll() }
     }
-
-
 }

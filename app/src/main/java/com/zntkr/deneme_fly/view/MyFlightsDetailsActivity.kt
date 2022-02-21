@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -22,15 +21,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
-import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.databinding.ActivityMyFlightsDetailsBinding
-import com.zntkr.deneme_fly.model.RoomModel
 import com.zntkr.deneme_fly.viewmodel.MyFlightsDetailsViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
 class MyFlightsDetailsActivity() : AppCompatActivity() {
+
     private lateinit var binding: ActivityMyFlightsDetailsBinding
     private lateinit var viewModel : MyFlightsDetailsViewModel
 
@@ -71,7 +69,7 @@ class MyFlightsDetailsActivity() : AppCompatActivity() {
                 }
             }
         }
-
+                // deleting the flight
         binding.deleteButton.setOnClickListener {
            if(flightName != null){
                viewModel.deleteData(flightName)
@@ -80,7 +78,7 @@ class MyFlightsDetailsActivity() : AppCompatActivity() {
             startActivity(newIntent)
         }
     }
-    // save function
+    // save function for qr
     private fun saveMediaToStorage(bitmap: Bitmap,flightName: String?){
         val filename = "flight-${flightName}.jpg"
         var fos: OutputStream? = null
@@ -91,7 +89,6 @@ class MyFlightsDetailsActivity() : AppCompatActivity() {
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                 }
-
                 val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
                 fos = imageUri?.let { resolver.openOutputStream(it) }
             }

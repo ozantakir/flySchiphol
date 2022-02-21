@@ -1,30 +1,25 @@
 package com.zntkr.deneme_fly.adapter
-import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.databinding.RecyclerRowBinding
-import com.zntkr.deneme_fly.model.Destination
 import com.zntkr.deneme_fly.model.Flight
-import com.zntkr.deneme_fly.model.FlyModel
-import com.zntkr.deneme_fly.service.DestinationApi
-import com.zntkr.deneme_fly.view.DetailsActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.*
-import kotlin.collections.ArrayList
-
-class RecyclerViewAdapter(private val flyList : List<Flight>) :
+class RecyclerViewAdapter(private val flyList : List<Flight>,val listener: MyOnClickListener) :
     RecyclerView.Adapter<RecyclerViewAdapter.RowHolder>() {
-    private var city : String? = null
-    private var country : String? = null
-    private var dest : String? = null
 
-    class RowHolder(val binding: RecyclerRowBinding) : RecyclerView.ViewHolder(binding.root) {}
+    inner class RowHolder(val binding: RecyclerRowBinding) : RecyclerView.ViewHolder(binding.root){
+        // on click listener
+        init {
+            itemView.setOnClickListener {
+                val pos = absoluteAdapterPosition
+                listener.onClick(pos)
+            }
+        }
+    }
+    interface MyOnClickListener{
+        fun onClick(position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
         val binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context))
@@ -32,85 +27,45 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
     }
 
     override fun onBindViewHolder(holder: RowHolder, position: Int) {
-
-        // getting destination country and city name from api and assigning
-//        val quotesApi = RetrofitHelper.getInstance().create(DestinationApi::class.java)
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val destination = flyList[position].route?.destinations?.get(0)
-//            if(destination != null){
-//                val result = quotesApi.getDestinations(destination)
-//                withContext(Dispatchers.Main){
-//                    city = result.body()?.city.toString()
-//                    country = result.body()?.country
-//                    dest = "$city, $country"
-//                    if(dest != "null, null"){
-//                        holder.binding.flightDestination.text = dest
-//                    } else {
-//                        holder.binding.flightDestination.text = flyList[position].route?.destinations?.get(0)
-//                    }
-//            }
-//            }
-//        }
-        holder.binding.flightDestination.text = flyList[position].route?.destinations?.get(0)
-
         // assigning values to ui
+        val airport = flyList[position].route?.destinations?.get(0) + " Airport"
+        holder.binding.flightDestination.text = airport
         holder.binding.flightName.text = flyList[position].flightName
         holder.binding.flightDate.text = flyList[position].scheduleDate
         holder.binding.flightTime.text = flyList[position].scheduleTime
+        // checking the direction for icon
         if(flyList[position].flightDirection == "A"){
             holder.binding.flyIcon.setImageResource(R.drawable.arrival)
         } else if (flyList[position].flightDirection == "D"){
             holder.binding.flyIcon.setImageResource(R.drawable.departure)
         }
-
-        // getting time for now
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        val month = Calendar.getInstance().get(Calendar.MONTH) + 1
-        val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-
-        // time for selected flight
-        val flyDate = flyList[position].scheduleDate
-        val flyYear = flyDate?.substring(0,4)?.toInt()
-        val flyMonth = flyDate?.substring(5,7)?.toInt()
-        val flyDay = flyDate?.substring(8,10)?.toInt()
-        val flyHour = flyList[position].scheduleTime?.substring(0,2)?.toInt()
-
-
-            holder.itemView.setOnClickListener {
-                val activity = holder.itemView.context as Activity
-                val intent = Intent(activity,DetailsActivity::class.java)
-
-                // comparing flight direction and time to decide if reservation is possible
-                if(flyList[position].flightDirection == "D" && year <= flyYear!!){
-                    if(month <= flyMonth!!){
-                        if(day <= flyDay!!){
-                            println(hour)
-                            println(flyHour)
-                        //    if(hour < flyHour!!.plus(2)){
-                                intent.putExtra("reservation","true")
-                       //     }
-                        }
-                    }
-                } else {
-                    intent.putExtra("reservation","false")
-                }
-
-                // sending data with intent and starting activity
-                intent.putExtra("flyName", flyList[position].flightName)
-                intent.putExtra("flyNumber", flyList[position].flightNumber.toString())
-                intent.putExtra("flyDirection", flyList[position].flightDirection)
-                intent.putExtra("flyGate", flyList[position].gate.toString())
-                intent.putExtra("flyDate", flyList[position].scheduleDate)
-                intent.putExtra("flyTime", flyList[position].scheduleTime)
-                intent.putExtra("flyDestination",
-                    holder.binding.flightDestination.text
-                )
-                holder.itemView.context.startActivity(intent)
-            }
     }
 
     override fun getItemCount(): Int {
         return flyList.count()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

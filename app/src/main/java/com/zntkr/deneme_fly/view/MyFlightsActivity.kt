@@ -3,39 +3,22 @@ package com.zntkr.deneme_fly.view
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.Image
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
-import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.adapter.MyFlightsRecyclerAdapter
-import com.zntkr.deneme_fly.adapter.RecyclerViewAdapter
 import com.zntkr.deneme_fly.databinding.ActivityMyFlightsBinding
-import com.zntkr.deneme_fly.databinding.MyFlightsRecyclerRowBinding
-import com.zntkr.deneme_fly.model.RoomModel
-import com.zntkr.deneme_fly.roomdb.InfoDatabase
 import com.zntkr.deneme_fly.viewmodel.MyFlightsViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.*
-
 class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
 
     private lateinit var binding: ActivityMyFlightsBinding
     private var recyclerAdapter: MyFlightsRecyclerAdapter? = null
     lateinit var viewModel: MyFlightsViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyFlightsBinding.inflate(layoutInflater)
@@ -82,25 +65,26 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
                 startActivity(intent)
             }
         }
+        // deleting all of my flights
         binding.delete.setOnClickListener {
                 viewModel.deleteAll()
         }
     }
-
+    // all flights
     private fun getAll() {
         viewModel.getAll.observe(this, Observer {
             recyclerAdapter = MyFlightsRecyclerAdapter(it)
             binding.recyclerView.adapter = recyclerAdapter
         })
     }
-
+    // past flights
     private fun getPast() {
         viewModel.getPast.observe(this, Observer {
             recyclerAdapter = MyFlightsRecyclerAdapter(it)
             binding.recyclerView.adapter = recyclerAdapter
         })
     }
-
+    // future flights
     private fun getFuture() {
         viewModel.getFuture.observe(this, Observer {
             recyclerAdapter = MyFlightsRecyclerAdapter(it)
@@ -112,4 +96,6 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
     override fun onBackPressed() {
         return;
     }
+
+
 }

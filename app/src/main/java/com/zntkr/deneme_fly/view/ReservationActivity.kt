@@ -5,24 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
-import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.databinding.ActivityReservationBinding
 import com.zntkr.deneme_fly.model.RoomModel
-import com.zntkr.deneme_fly.roomdb.InfoDao
-import com.zntkr.deneme_fly.roomdb.InfoDatabase
 import com.zntkr.deneme_fly.viewmodel.ReservationViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
 class ReservationActivity : AppCompatActivity() {
 
     private lateinit var viewModel : ReservationViewModel
-
     private lateinit var binding : ActivityReservationBinding
-    private lateinit var db : InfoDatabase
-    private lateinit var infoDao : InfoDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +19,7 @@ class ReservationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // initialize view model
-        viewModel = ViewModelProvider(this).get(ReservationViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ReservationViewModel::class.java]
 
         // Intent to get data from details activity
         val intent = getIntent()

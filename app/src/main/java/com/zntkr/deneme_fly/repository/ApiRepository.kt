@@ -1,9 +1,7 @@
 package com.zntkr.deneme_fly.repository
 
-import com.zntkr.deneme_fly.model.Destination
-import com.zntkr.deneme_fly.model.DestinationsList
 import com.zntkr.deneme_fly.model.FlyModel
-import retrofit2.Response
+import com.zntkr.deneme_fly.service.RetrofitHelper
 
 class ApiRepository {
 
@@ -14,14 +12,4 @@ class ApiRepository {
         }
         return null
     }
-
-    suspend fun getDestinations(code: String?) : Destination? {
-        val req = RetrofitHelper.apiClient.getDestinations(code)
-        if(req.isSuccessful){
-            return req.body()
-        }
-        return null
-    }
-
-
 }
