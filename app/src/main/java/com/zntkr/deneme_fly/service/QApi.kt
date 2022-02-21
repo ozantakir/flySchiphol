@@ -34,7 +34,7 @@ interface DestinationApi {
     )
     @GET("destinations/{iata}")
     suspend fun getDestinations(
-        @Path("iata") code:String
+        @Path("iata") code:String?
     ) : Response<Destination>
 }
 

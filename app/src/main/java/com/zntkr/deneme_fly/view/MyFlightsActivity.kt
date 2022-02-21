@@ -52,6 +52,7 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
         // getting past flights
         binding.pastFlights.setOnCheckedChangeListener { button, isChecked ->
             if (isChecked) {
+                binding.futureFlights.isChecked = false
                 getPast()
             } else {
                 getAll()
@@ -61,6 +62,7 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
         // getting future flights
         binding.futureFlights.setOnCheckedChangeListener { button, isChecked ->
             if (isChecked) {
+                binding.pastFlights.isChecked = false
                 getFuture()
             } else {
                 getAll()
@@ -80,7 +82,6 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
                 startActivity(intent)
             }
         }
-
         binding.delete.setOnClickListener {
                 viewModel.deleteAll()
         }
@@ -110,32 +111,5 @@ class MyFlightsActivity : AppCompatActivity(), LifecycleOwner {
     @Override
     override fun onBackPressed() {
         return;
-    }
-
-    fun getNow() : Long {
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        var month = Calendar.getInstance().get(Calendar.MONTH)
-        if (month < 10){
-            month = "0$month".toInt()
-        }
-        var day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        if (day < 10){
-            day = "0$day".toInt()
-        }
-        var hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        if (hour < 10){
-            hour = "0$hour".toInt()
-        }
-        var minute = Calendar.getInstance().get(Calendar.MINUTE)
-        if (minute < 10){
-            minute = "0$minute".toInt()
-        }
-        var second = Calendar.getInstance().get(Calendar.SECOND)
-        if (second < 10){
-            second = "0$second".toInt()
-        }
-
-        val dateTime = "$year$month$day$hour$minute$second"
-        return dateTime.toLong()
     }
 }

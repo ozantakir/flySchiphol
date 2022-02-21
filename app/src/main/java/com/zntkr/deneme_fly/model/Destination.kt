@@ -8,5 +8,6 @@ data class Destination(
     val city: Any?,
     @SerializedName("country")
     val country: String?,
-
+    @SerializedName("iata")
+    val iata: String?,
 )

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.databinding.RecyclerRowBinding
+import com.zntkr.deneme_fly.model.Destination
 import com.zntkr.deneme_fly.model.Flight
 import com.zntkr.deneme_fly.model.FlyModel
 import com.zntkr.deneme_fly.service.DestinationApi
@@ -33,17 +34,25 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
     override fun onBindViewHolder(holder: RowHolder, position: Int) {
 
         // getting destination country and city name from api and assigning
-        val quotesApi = RetrofitHelper.getInstance().create(DestinationApi::class.java)
-        CoroutineScope(Dispatchers.IO).launch {
-            val destination = flyList[position].route?.destinations?.get(0)
-            val result = quotesApi.getDestinations(destination!!)
-            withContext(Dispatchers.Main){
-                city = result.body()?.city.toString()
-                country = result.body()?.country
-                dest = "$city, $country"
-                holder.binding.flightDestination.text = dest
-            }
-        }
+//        val quotesApi = RetrofitHelper.getInstance().create(DestinationApi::class.java)
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val destination = flyList[position].route?.destinations?.get(0)
+//            if(destination != null){
+//                val result = quotesApi.getDestinations(destination)
+//                withContext(Dispatchers.Main){
+//                    city = result.body()?.city.toString()
+//                    country = result.body()?.country
+//                    dest = "$city, $country"
+//                    if(dest != "null, null"){
+//                        holder.binding.flightDestination.text = dest
+//                    } else {
+//                        holder.binding.flightDestination.text = flyList[position].route?.destinations?.get(0)
+//                    }
+//            }
+//            }
+//        }
+        holder.binding.flightDestination.text = flyList[position].route?.destinations?.get(0)
+
         // assigning values to ui
         holder.binding.flightName.text = flyList[position].flightName
         holder.binding.flightDate.text = flyList[position].scheduleDate
@@ -56,14 +65,16 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
 
         // getting time for now
         val year = Calendar.getInstance().get(Calendar.YEAR)
-        val month = Calendar.getInstance().get(Calendar.MONTH)
+        val month = Calendar.getInstance().get(Calendar.MONTH) + 1
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
         // time for selected flight
         val flyDate = flyList[position].scheduleDate
         val flyYear = flyDate?.substring(0,4)?.toInt()
         val flyMonth = flyDate?.substring(5,7)?.toInt()
         val flyDay = flyDate?.substring(8,10)?.toInt()
+        val flyHour = flyList[position].scheduleTime?.substring(0,2)?.toInt()
 
 
             holder.itemView.setOnClickListener {
@@ -73,8 +84,12 @@ class RecyclerViewAdapter(private val flyList : List<Flight>) :
                 // comparing flight direction and time to decide if reservation is possible
                 if(flyList[position].flightDirection == "D" && year <= flyYear!!){
                     if(month <= flyMonth!!){
-                        if(day < flyDay!!){
-                            intent.putExtra("reservation","true")
+                        if(day <= flyDay!!){
+                            println(hour)
+                            println(flyHour)
+                        //    if(hour < flyHour!!.plus(2)){
+                                intent.putExtra("reservation","true")
+                       //     }
                         }
                     }
                 } else {

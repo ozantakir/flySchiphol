@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import com.zntkr.deneme_fly.R
 import com.zntkr.deneme_fly.databinding.ActivityDetailsBinding
-import com.zntkr.deneme_fly.model.Flight
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -64,6 +63,7 @@ class DetailsActivity : AppCompatActivity() {
             binding.gate.text = gate
         }
         binding.number.text = number
+
         binding.destination.text = destination
 
         // Intent to reservation activity
@@ -78,4 +78,6 @@ class DetailsActivity : AppCompatActivity() {
             startActivity(newIntent)
         }
     }
+
+
 }

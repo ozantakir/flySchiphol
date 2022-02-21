@@ -1,4 +1,5 @@
 import com.zntkr.deneme_fly.service.ApiClient
+import com.zntkr.deneme_fly.service.DestinationApi
 import com.zntkr.deneme_fly.service.QApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,5 +16,9 @@ object RetrofitHelper {
     val service : QApi by lazy {
         getInstance().create(QApi::class.java)
     }
-    val apiClient = ApiClient(service)
+
+    val servideDest : DestinationApi by lazy {
+        getInstance().create(DestinationApi::class.java)
+    }
+    val apiClient = ApiClient(service, servideDest)
 }

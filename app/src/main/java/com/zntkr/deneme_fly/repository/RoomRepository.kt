@@ -30,26 +30,31 @@ class RoomRepository(private val dao : InfoDao) {
 
 // getting date time for now
 fun getNow() : Long {
+    var month : String? = null
+    var day : String? = null
+    var hour : String? = null
+    var minute : String? = null
+    var second : String? = null
     val year = Calendar.getInstance().get(Calendar.YEAR)
-    var month = Calendar.getInstance().get(Calendar.MONTH)
-    if (month < 10){
-        month = "0$month".toInt()
+    month = (Calendar.getInstance().get(Calendar.MONTH) + 1).toString()
+    if (month.toInt() < 10){
+        month = "0$month"
     }
-    var day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-    if (day < 10){
-        day = "0$day".toInt()
+    day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString()
+    if (day.toInt() < 10){
+        day = "0$day"
     }
-    var hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-    if (hour < 10){
-        hour = "0$hour".toInt()
+    hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY).toString()
+    if (hour.toInt() < 10){
+        hour = "0$hour"
     }
-    var minute = Calendar.getInstance().get(Calendar.MINUTE)
-    if (minute < 10){
-        minute = "0$minute".toInt()
+    minute = Calendar.getInstance().get(Calendar.MINUTE).toString()
+    if (minute.toInt() < 10){
+        minute = "0$minute"
     }
-    var second = Calendar.getInstance().get(Calendar.SECOND)
-    if (second < 10){
-        second = "0$second".toInt()
+    second = Calendar.getInstance().get(Calendar.SECOND).toString()
+    if (second.toInt() < 10){
+        second = "0$second"
     }
 
     val dateTime = "$year$month$day$hour$minute$second"

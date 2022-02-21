@@ -3,6 +3,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.AbsListView
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +14,10 @@ import com.zntkr.deneme_fly.adapter.RecyclerViewAdapter
 import com.zntkr.deneme_fly.model.FlyModel
 import com.zntkr.deneme_fly.service.QApi
 import com.zntkr.deneme_fly.databinding.ActivityMainBinding
+import com.zntkr.deneme_fly.model.Destination
+import com.zntkr.deneme_fly.model.DestinationsList
 import com.zntkr.deneme_fly.model.Flight
+import com.zntkr.deneme_fly.service.DestinationApi
 import com.zntkr.deneme_fly.viewmodel.MainViewModel
 import com.zntkr.deneme_fly.viewmodel.ReservationViewModel
 import kotlinx.coroutines.*
@@ -26,13 +30,12 @@ class MainActivity : AppCompatActivity() {
     private var flyModels: List<Flight>? = null
     private var recyclerViewAdapter : RecyclerViewAdapter? = null
     private lateinit var binding : ActivityMainBinding
-    private var job : Job? = null
     private lateinit var dateText : String
     private var date : String? = null
+
     private var selectedYear = 0
     private var selectedMonth = 0
     private var selectedDay = 0
-    private var pageNumber = 1
     private var destination = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,14 +52,13 @@ class MainActivity : AppCompatActivity() {
         loadData()
         // Next - Previous page
         binding.fab.setOnClickListener {
-            pageNumber += 1
-            loadData()
+            viewModel.addNumber()
+                loadData()
         }
         binding.fab2.setOnClickListener {
-            if(pageNumber > 0){
-                pageNumber -= 1
+            viewModel.subNumber()
                 loadData()
-            }
+
         }
         // Filtering according to Arrival
         binding.checkArrival.setOnCheckedChangeListener { button, isChecked ->
@@ -110,16 +112,18 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MyFlightsActivity::class.java)
             startActivity(intent)
         }
+
+
     }
 
     // Function to load data from API
     private fun loadData() {
         if(destination == "A"){
-            viewModel.refreshPage(pageNumber, dest = "A",date = date)
+            viewModel.refreshPage(dest = "A",date = date)
         } else if(destination == "D"){
-            viewModel.refreshPage(pageNumber, dest = "D",date = date)
+            viewModel.refreshPage(dest = "D",date = date)
         } else {
-            viewModel.refreshPage(pageNumber, dest = null,date = date)
+            viewModel.refreshPage(dest = null,date = date)
         }
         viewModel.pageLiveData.observe(this){response ->
             if(response != null){
@@ -161,8 +165,10 @@ class MainActivity : AppCompatActivity() {
         datePicker.show()
     }
 
+
     @Override
     override fun onBackPressed() {
         return;
     }
 }
+
